@@ -1,48 +1,41 @@
+# ==============================================================================
+# Project Specific
+# ==============================================================================
+.env
+.env.*
+!.env.example
+uploads/
+
+# ==============================================================================
+# Python / uv / Virtual Environments
+# ==============================================================================
+.venv/
+venv/
+ENV/
+env/
+
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-pip-wheel-metadata/
-build/
+*$py.class
 
-dist/
-*.egg-info/
+# If the whole team uses uv to pin Python versions, COMMIT this file.
+# Otherwise ignore it.
+# .python-version
 
+# ==============================================================================
+# Testing & Code Quality
+# ==============================================================================
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
-coverage.xml
+htmlcov/
 
-.env
-.env.*
-!.env.example
-
-.ipynb_checkpoints/
-
-.idea/
+# ==============================================================================
+# IDEs & Editors
+# ==============================================================================
 .vscode/
-
-logs/
-*.log
-
-data/raw/
-data/processed/
-data/interim/
-models/
-artifacts/
-
-*.sqlite3
-*.db
-
-.venv/
-.env
-__pycache__/
-*.pyc
-.pytest_cache/
-.mypy_cache/
-uploads/
+.idea/
+*.swp
+*.swo
+.DS_Store
