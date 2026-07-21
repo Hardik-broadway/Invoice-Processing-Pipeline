@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pymupdf     # PyMuPDF
-from   import Image
+from PIL   import Image
 from typing import List
 
 DPI = 300
