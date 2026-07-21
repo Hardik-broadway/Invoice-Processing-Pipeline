@@ -3,7 +3,7 @@ from app.pipeline.stages.ocr import run_ocr
 def extract_address(text: str) -> str | None:
     lines = [line.strip() for line in text.splitlines()]
 
-    start = NoneSTART_MARKERS = {
+    START_MARKERS = {
     "DELIVER TO",
     "SHIP TO",
     "BILL TO",

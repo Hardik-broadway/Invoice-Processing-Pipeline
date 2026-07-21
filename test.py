@@ -26,7 +26,7 @@ from app.pipeline.stages.ocr import run_ocr
 from app.pipeline.stages.address import extract_address
 
 # Convert PDF to images
-images = pdf_to_images("C:/Users/DJSuryansh-BroadwayI/AI_Team/Invoice-Processing-Pipeline/app/uploads/Invoice206027.pdf")
+images = pdf_to_images("C:/Users/DJSuryansh-BroadwayI/AI_Team/Invoice-Processing-Pipeline/uploads/Invoice206027.pdf")
 
 # Run OCR
 ocr_results = run_ocr(images)

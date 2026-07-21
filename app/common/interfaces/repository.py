@@ -1,6 +1,6 @@
+#app/common/interfaces/repository.py
 from abc import ABC, abstractmethod
 from uuid import UUID
-
 from app.document.model import Document
 
 

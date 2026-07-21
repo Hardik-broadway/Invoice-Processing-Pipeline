@@ -1,8 +1,7 @@
+#app/document/schema.py
 from datetime import datetime
 from uuid import UUID
-
 from pydantic import BaseModel, ConfigDict
-
 from app.document.model import DocumentStatus
 
 

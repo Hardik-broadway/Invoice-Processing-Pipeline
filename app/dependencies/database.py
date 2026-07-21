@@ -1,7 +1,6 @@
+#app/dependencies/database.py
 from collections.abc import AsyncGenerator
-
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from app.db.session import AsyncSessionLocal
 
 
