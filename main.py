@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
+from app.api.router import api_router
 from app.core.config import settings
-from app.api.routes.health import router as health_router
 from app.core.lifespan import lifespan
 
 app = FastAPI(
@@ -10,5 +10,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.include_router(health_router, prefix=settings.API_PREFIX)
-app.router.lifespan_context = lifespan
+app.include_router(
+    api_router,
+    prefix=settings.API_PREFIX,
+)

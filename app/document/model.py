@@ -1,13 +1,12 @@
+import enum
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import DateTime, Enum, String
+from sqlalchemy import DateTime, Enum, Integer, String
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
-
-import enum
 
 
 class DocumentStatus(str, enum.Enum):
@@ -35,7 +34,7 @@ class Document(Base):
 
     content_type: Mapped[str] = mapped_column(String(100))
 
-    file_size: Mapped[int]
+    file_size: Mapped[int] = mapped_column(Integer)
 
     status: Mapped[DocumentStatus] = mapped_column(
         Enum(DocumentStatus),
