@@ -20,7 +20,7 @@ class DocumentRepository(DocumentRepositoryInterface):
 
         self.db.add(document)
 
-        await self.db.commit()
+        await self.db.flush()
 
         await self.db.refresh(document)
 
@@ -42,7 +42,7 @@ class DocumentRepository(DocumentRepositoryInterface):
         document: Document,
     ) -> Document:
 
-        await self.db.commit()
+        await self.db.flush()
 
         await self.db.refresh(document)
 

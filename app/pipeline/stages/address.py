@@ -1,16 +1,14 @@
-from app.pipeline.stages.ocr import run_ocr
-
 def extract_address(text: str) -> str | None:
     lines = [line.strip() for line in text.splitlines()]
 
-    start = NoneSTART_MARKERS = {
-    "DELIVER TO",
-    "SHIP TO",
-    "BILL TO",
-}
+    START_MARKERS = {
+        "DELIVER TO",
+        "SHIP TO",
+        "BILL TO",
+    }
 
     for i, line in enumerate(lines):
-        if line.upper() == "DELIVER TO":
+        if line.upper() in START_MARKERS:
             start = i + 1
             break
 

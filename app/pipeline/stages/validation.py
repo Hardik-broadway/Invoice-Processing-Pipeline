@@ -2,12 +2,14 @@ from app.pipeline.context import PipelineContext
 from app.pipeline.stages.base import PipelineStage
 
 
-class OCRStage(PipelineStage):
+class ValidationStage(PipelineStage):
     async def execute(
         self,
         context: PipelineContext,
     ) -> None:
 
-        print("Running OCR")
+        print("Validating address")
 
-        context.raw_text = "Dummy OCR Text"
+        context.latitude = -37.8136
+
+        context.longitude = 144.9631

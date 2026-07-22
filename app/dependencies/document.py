@@ -5,6 +5,7 @@ from app.db.session import get_db
 from app.document.repository import DocumentRepository
 from app.document.service import DocumentService
 from app.storage.local_storage import LocalStorage
+from app.workers.document_worker import DocumentWorker
 
 
 def get_document_service(
@@ -15,7 +16,10 @@ def get_document_service(
 
     storage = LocalStorage()
 
+    worker = DocumentWorker()
+
     return DocumentService(
         repository,
         storage,
+        worker,
     )

@@ -1,18 +1,21 @@
 from fastapi import UploadFile
 
-from app.common.interfaces.repository import DocumentRepositoryInterface
 from app.common.interfaces.storage import Storage
+from app.db.uow import UnitOfWork
 from app.document.model import Document
+from app.jobs.dispatcher import JobDispatcher
 
 
 class DocumentService:
     def __init__(
         self,
-        repository: DocumentRepositoryInterface,
+        uow:UnitOfWork,
         storage: Storage,
+        dispatcher: JobDispatcher,
     ):
-        self.document_repository = repository
+        self.uow = uow
         self.storage = storage
+        self.dispatcher = dispatcher
 
     async def upload_document(
         self,
@@ -28,4 +31,6 @@ class DocumentService:
             file_size=file_size,
         )
 
-        return await self.document_repository.create(document)
+        document = await self.uow.documents.create(document)
+        await self.dispatcher.dispatch_document(document.id)
+        return document
