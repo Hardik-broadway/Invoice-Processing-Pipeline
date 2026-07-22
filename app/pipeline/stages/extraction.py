@@ -9,5 +9,3 @@ class ExtractionStage(PipelineStage):
     ) -> None:
 
         print("Extracting supplier")
-
-        context.supplier_address = "Melbourne VIC"

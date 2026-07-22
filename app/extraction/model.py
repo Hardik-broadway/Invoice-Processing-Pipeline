@@ -1,8 +1,9 @@
+# app/extraction/model.py
 from datetime import datetime
 from uuid import uuid4
 
 from sqlalchemy import DateTime, ForeignKey, Text
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -20,27 +21,27 @@ class DocumentExtraction(Base):
     document_id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("documents.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
     )
 
-    raw_text: Mapped[str | None] = mapped_column(Text)
+    raw_text: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True,
+    )
 
-    supplier_name: Mapped[str | None]
+    extraction_data: Mapped[dict | None] = mapped_column(
+        JSONB,
+        nullable=True,
+    )
 
-    supplier_address: Mapped[str | None]
-
-    invoice_number: Mapped[str | None]
-
-    invoice_date: Mapped[str | None]
-
-    total_amount: Mapped[str | None]
-
-    currency: Mapped[str | None]
-
-    latitude: Mapped[float | None]
-
-    longitude: Mapped[float | None]
+    validated_data: Mapped[dict | None] = mapped_column(
+        JSONB,
+        nullable=True,
+    )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         default=datetime.utcnow,
+        nullable=False,
     )

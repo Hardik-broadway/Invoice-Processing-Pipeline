@@ -1,7 +1,8 @@
+# app/document/model.py
 import enum
 from datetime import datetime
 from uuid import UUID, uuid4
-
+ 
 from sqlalchemy import DateTime, Enum, Integer, String
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column
@@ -40,6 +41,10 @@ class Document(Base):
         Enum(DocumentStatus),
         default=DocumentStatus.UPLOADED,
     )
+
+    error_message: Mapped[str | None] = mapped_column(String(255))
+
+    processed_at: Mapped[datetime | None] = mapped_column(DateTime)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime,

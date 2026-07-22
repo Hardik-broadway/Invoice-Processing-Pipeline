@@ -1,22 +1,26 @@
-from app.pipeline.context import PipelineContext
-from app.pipeline.stages.extraction import ExtractionStage
+from app.integrations.ocr.pdfplumber_provider import PDFPlumberOCRProvider
 from app.pipeline.stages.ocr import OCRStage
-from app.pipeline.stages.validation import ValidationStage
+from app.pipeline.stages.persistence import PersistenceStage
 
 
 class DocumentPipeline:
     def __init__(self):
 
+        ocr_provider = PDFPlumberOCRProvider()
+
         self.stages = [
-            OCRStage(),
-            ExtractionStage(),
-            ValidationStage(),
+            OCRStage(ocr_provider),
+            PersistenceStage(),
         ]
 
     async def process(
         self,
-        context: PipelineContext,
+        context,
+        uow,
     ):
 
         for stage in self.stages:
-            await stage.execute(context)
+            await stage.execute(
+                context=context,
+                uow=uow,
+            )

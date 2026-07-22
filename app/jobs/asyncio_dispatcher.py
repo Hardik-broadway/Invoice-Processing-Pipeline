@@ -1,3 +1,4 @@
+# app/jobs/asyncio_dispatcher.py
 import asyncio
 from uuid import UUID
 
@@ -6,8 +7,11 @@ from app.workers.document_worker import DocumentWorker
 
 
 class AsyncIOJobDispatcher(JobDispatcher):
-    def __init__(self):
-        self.worker = DocumentWorker()
+    def __init__(
+        self,
+        worker: DocumentWorker,
+    ):
+        self.worker = worker
 
     async def dispatch_document(
         self,

@@ -1,3 +1,4 @@
+# app/common/interfaces/storage.py
 from abc import ABC, abstractmethod
 
 from fastapi import UploadFile

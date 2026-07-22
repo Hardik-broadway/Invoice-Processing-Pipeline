@@ -1,3 +1,4 @@
+# app/document/service.py
 from fastapi import UploadFile
 
 from app.common.interfaces.storage import Storage
@@ -32,5 +33,6 @@ class DocumentService:
         )
 
         document = await self.uow.documents.create(document)
+        await self.uow.commit()
         await self.dispatcher.dispatch_document(document.id)
         return document

@@ -1,3 +1,4 @@
+# app/common/interfaces/repository.py
 from abc import ABC, abstractmethod
 from uuid import UUID
 
