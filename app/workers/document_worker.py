@@ -1,9 +1,11 @@
 # app/workers/document_worker.py
+from datetime import datetime, timezone
 from uuid import UUID
 
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from app.db.uow import UnitOfWork
+from app.document.model import DocumentStatus
 from app.pipeline.context import PipelineContext
 from app.pipeline.pipeline import DocumentPipeline
 
@@ -29,14 +31,34 @@ class DocumentWorker:
             if document is None:
                 raise ValueError(f"Document {document_id} not found")
 
-            context = PipelineContext(
-                document_id=document.id,
-                file_path=f"uploads/{document.stored_filename}",
-            )
+            try:
+                document.status = DocumentStatus.PROCESSING
+                document.error_message = None
 
-            await self.pipeline.process(
-                context=context,
-                uow=uow,
-            )
+                await uow.documents.update(document)
+                await uow.commit()
 
-            await uow.commit()
+                context = PipelineContext(
+                    document_id=document.id,
+                    file_path=f"uploads/{document.stored_filename}",
+                )
+
+                await self.pipeline.process(
+                    context=context,
+                    uow=uow,
+                )
+                document.status = DocumentStatus.COMPLETED
+                document.processed_at = datetime.now(timezone.utc)
+                document.error_message = None
+
+                await uow.documents.update(document)
+                await uow.commit()
+
+            except Exception as e:
+                document.status = DocumentStatus.FAILED
+                document.error_message = str(e)
+
+                await uow.documents.update(document)
+                await uow.commit()
+
+                raise

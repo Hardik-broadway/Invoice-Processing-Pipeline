@@ -1,8 +1,8 @@
 # app/document/model.py
 import enum
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import UUID, uuid4
- 
+
 from sqlalchemy import DateTime, Enum, Integer, String
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column
@@ -44,9 +44,10 @@ class Document(Base):
 
     error_message: Mapped[str | None] = mapped_column(String(255))
 
-    processed_at: Mapped[datetime | None] = mapped_column(DateTime)
+    processed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
     )

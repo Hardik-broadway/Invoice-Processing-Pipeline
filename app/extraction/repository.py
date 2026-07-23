@@ -1,4 +1,6 @@
 # app/extraction/repository.py
+from uuid import UUID
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -24,7 +26,7 @@ class DocumentExtractionRepository:
 
     async def get_by_document_id(
         self,
-        document_id,
+        document_id: UUID,
     ) -> DocumentExtraction | None:
 
         stmt = select(DocumentExtraction).where(
