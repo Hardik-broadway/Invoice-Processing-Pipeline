@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from app.db.uow import UnitOfWork
 from app.document.model import DocumentStatus
+from app.extraction.schema import ExtractionResponse
 from app.pipeline.context import PipelineContext
 from app.pipeline.pipeline import DocumentPipeline
 
@@ -41,6 +42,7 @@ class DocumentWorker:
                 context = PipelineContext(
                     document_id=document.id,
                     file_path=f"uploads/{document.stored_filename}",
+                    extraction_data=ExtractionResponse(),
                 )
 
                 await self.pipeline.process(

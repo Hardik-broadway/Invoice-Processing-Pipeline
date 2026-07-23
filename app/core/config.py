@@ -13,6 +13,8 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = "sqlite:///./test.db"
 
+    GEMINI_API_KEY: str = "your_gemini_api_key_here"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         case_sensitive=True,

@@ -14,6 +14,8 @@ class DocumentResponse(BaseModel):
     original_filename: str
     status: DocumentStatus
     created_at: datetime
+    processed_at: datetime | None = None
+    error_message: str | None = None
 
 
 class DocumentListResponse(BaseModel):
