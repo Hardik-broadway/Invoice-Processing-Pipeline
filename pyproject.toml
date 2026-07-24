@@ -22,3 +22,11 @@ dependencies = [
     "structlog>=26.1.0",
     "uvicorn>=0.51.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.0",
+]
+
+[tool.ruff.lint]
+ignore = ["B008"]

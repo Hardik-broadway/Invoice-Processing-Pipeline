@@ -3,7 +3,6 @@ from pathlib import Path
 import pymupdf
 from PIL import Image
 
-
 DPI = 300
 
 

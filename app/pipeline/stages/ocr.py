@@ -1,8 +1,9 @@
+import structlog
+
 from app.common.interfaces.ocr import OCRProvider
 from app.db.uow import UnitOfWork
 from app.pipeline.context import PipelineContext
 from app.pipeline.stages.base import PipelineStage
-import structlog
 
 logger = structlog.get_logger()
 

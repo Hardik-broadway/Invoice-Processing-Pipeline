@@ -1,9 +1,9 @@
 # app/pipeline/stages/persistence.py
 import logging
+
 from app.db.uow import UnitOfWork
 from app.extraction.model import DocumentExtraction
 from app.pipeline.context import PipelineContext
-
 
 logger = logging.getLogger(__name__)
 

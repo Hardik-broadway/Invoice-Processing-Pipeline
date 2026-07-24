@@ -4,11 +4,13 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 
 from app.dependencies.document import get_document_service, get_extraction_service
-from app.document.schema import DocumentListResponse, DocumentResponse
+from app.document.schema import (
+    DocumentListResponse,
+    DocumentResponse,
+    DocumentResultResponse,
+)
 from app.document.service import DocumentService
 from app.extraction.service import ExtractionService
-from app.document.schema import DocumentResultResponse
-
 
 router = APIRouter()
 

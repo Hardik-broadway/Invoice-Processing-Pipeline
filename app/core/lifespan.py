@@ -1,10 +1,10 @@
 # app/core/lifespan.py
 from contextlib import asynccontextmanager
 
+import structlog
 from fastapi import FastAPI
 
 from app.core.logging import configure_logging
-import structlog
 
 
 @asynccontextmanager
