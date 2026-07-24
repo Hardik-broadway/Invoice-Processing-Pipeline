@@ -1,23 +1,22 @@
 # app/integrations/llm/prompts.py
 INVOICE_EXTRACTION_PROMPT = """
-You are an expert invoice extraction system.
+You are given two inputs.
 
-Extract structured invoice information from the OCR text.
+1. Invoice image
+2. OCR text
 
-Rules:
+The invoice image is the primary source for:
 
-- Use only information explicitly present in the OCR text.
-- Never guess or infer values.
-- If a field cannot be found, return null.
-- Preserve all invoice numbers exactly.
-- Preserve dates exactly.
-- Preserve addresses exactly.
-- Put charge to in the supplier object and deliver to in the customer object.
-- Preserve monetary values exactly.
-- Include every line item found.
-- Return data matching the provided schema.
+- page layout
+- tables
+- headers
+- Bill To
+- Ship To
+- Supplier
 
-OCR Text:
+The OCR text is only to improve recognition of small or blurry text.
 
+If the image and OCR disagree,
+prefer the invoice image.
 {raw_text}
 """

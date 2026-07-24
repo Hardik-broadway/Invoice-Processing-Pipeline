@@ -1,5 +1,6 @@
 # app/extraction/schema.py
 from uuid import UUID
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -15,9 +16,13 @@ class DocumentResultResponse(BaseModel):
 class LineItem(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
+    item_code: str | None = None
     description: str | None = None
+    model: str | None = None
+    serial_number: str | None = None
     quantity: float | None = None
     unit_price: float | None = None
+    gst_amount: float | None = None
     total_price: float | None = None
 
 
@@ -28,7 +33,14 @@ class Supplier(BaseModel):
     address: str | None = None
 
 
-class Customer(BaseModel):
+class BillTo(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    name: str | None = None
+    address: str | None = None
+
+
+class ShipTo(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     name: str | None = None
@@ -51,7 +63,8 @@ class ExtractionResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     supplier: Supplier | None = None
-    customer: Customer | None = None
+    bill_to: BillTo | None = None
+    ship_to: ShipTo | None = None
     invoice: Invoice | None = None
     line_items: list[LineItem] = Field(default_factory=list)
 

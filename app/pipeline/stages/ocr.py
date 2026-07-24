@@ -1,3 +1,4 @@
+# app/pipeline/stages/ocr.py
 import structlog
 
 from app.common.interfaces.ocr import OCRProvider

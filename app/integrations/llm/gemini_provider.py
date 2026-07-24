@@ -1,6 +1,10 @@
 # app/integrations/llm/gemini_provider.py
+
+import asyncio
 import logging
+from pathlib import Path
 from typing import cast
+
 from google import genai
 from google.genai import types
 
@@ -19,13 +23,46 @@ class GeminiProvider(LLMProvider):
     async def extract_invoice(
         self,
         raw_text: str,
+        page_images: list[str],
     ) -> ExtractionResponse:
-        prompt = INVOICE_EXTRACTION_PROMPT.format(raw_text=raw_text)
-
         try:
+            parts: list[types.Part] = [
+                types.Part.from_text(
+                    text=INVOICE_EXTRACTION_PROMPT,
+                ),
+                types.Part.from_text(
+                    text=f"Raw OCR text:\n{raw_text}",
+                ),
+            ]
+
+            for image_path in page_images:
+                image_data = await self.read_image(image_path)
+                parts.append(
+                    types.Part.from_bytes(
+                        data=image_data,
+                        mime_type="image/png",
+                    )
+                )
+
+            if not page_images:
+                raise ValueError("No page images provided for Gemini extraction")
+
+            logger.info(
+                "Gemini request",
+                extra={
+                    "pages": len(page_images),
+                    "page_images": page_images,
+                    "ocr_characters": len(raw_text),
+                },
+            )
+
             response = await self.client.aio.models.generate_content(
                 model="gemini-3.5-flash-lite",
-                contents=prompt,
+                contents=[
+                    types.Content(
+                        parts=parts,
+                    )
+                ],
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
                     response_schema=ExtractionResponse,
@@ -44,4 +81,17 @@ class GeminiProvider(LLMProvider):
 
         except Exception:
             logger.exception("Failed to process or validate Gemini response")
+            logger.info(
+                "Sending invoice to Gemini for extraction",
+                extra={
+                    "pages": len(page_images),
+                    "ocr_characters": len(raw_text),
+                },
+            )
             raise
+
+    @staticmethod
+    async def read_image(path: str) -> bytes:
+        return await asyncio.to_thread(
+            Path(path).read_bytes,
+        )
